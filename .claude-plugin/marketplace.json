@@ -1,6 +1,8 @@
 {
   "name": "experimental-engineer",
-  "description": "Single-plugin marketplace for the experimental-engineer subagent.",
+  "metadata": {
+    "description": "Single-plugin marketplace for the experimental-engineer subagent."
+  },
   "owner": {
     "name": "Cody Hergenroeder",
     "email": "chergenroeder135@gmail.com"
