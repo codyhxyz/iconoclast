@@ -1,0 +1,20 @@
+{
+  "name": "experimental-engineer",
+  "description": "Single-plugin marketplace for the experimental-engineer subagent.",
+  "owner": {
+    "name": "Cody Hergenroeder",
+    "email": "chergenroeder135@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "experimental-engineer",
+      "description": "A Claude Code subagent that explores unconventional, first-principles solutions to hard technical problems.",
+      "version": "0.1.0",
+      "source": "./",
+      "author": {
+        "name": "Cody Hergenroeder",
+        "email": "chergenroeder135@gmail.com"
+      }
+    }
+  ]
+}

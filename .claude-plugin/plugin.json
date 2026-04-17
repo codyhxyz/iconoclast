@@ -1,0 +1,21 @@
+{
+  "name": "experimental-engineer",
+  "description": "A Claude Code subagent that explores unconventional, first-principles solutions to hard technical problems. Channels John Carmack-style fearless engineering.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Cody Hergenroeder",
+    "email": "chergenroeder135@gmail.com"
+  },
+  "homepage": "https://github.com/ydoc5212/experimental-engineer",
+  "repository": "https://github.com/ydoc5212/experimental-engineer",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "agent",
+    "subagent",
+    "performance",
+    "refactoring",
+    "first-principles",
+    "architecture"
+  ]
+}
