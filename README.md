@@ -1,6 +1,6 @@
 # eureka
 
-> A Claude Code subagent for when Claude is **trying all the wrong things**. Use it when you need Claude to think outside the box.
+> A subagent for when Claude is **trying all the wrong things**. Use it when you need Claude to think outside the box. This is my "eureka" plugin, my #1 most helpful plugin in daily use.
 
 <p align="center">
   <img src="./assets/steamed-hams.gif" alt="Steamed hams" width="480">
