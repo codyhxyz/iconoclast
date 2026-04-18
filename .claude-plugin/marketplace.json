@@ -10,13 +10,25 @@
   "plugins": [
     {
       "name": "iconoclast",
-      "description": "A Claude Code subagent for when Claude is playing it safe and you need it to actually solve the problem.",
+      "description": "A Claude Code subagent for when Claude is trying all the wrong things — drops the safe answer and reaches for the edge of its training data.",
       "version": "0.3.0",
       "source": "./",
       "author": {
         "name": "Cody Hergenroeder",
         "email": "chergenroeder135@gmail.com"
-      }
+      },
+      "homepage": "https://github.com/codyhxyz/iconoclast",
+      "repository": "https://github.com/codyhxyz/iconoclast",
+      "license": "MIT",
+      "keywords": [
+        "claude-code",
+        "agent",
+        "subagent",
+        "performance",
+        "refactoring",
+        "first-principles",
+        "architecture"
+      ]
     }
   ]
 }

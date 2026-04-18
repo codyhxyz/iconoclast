@@ -1,6 +1,6 @@
 # iconoclast
 
-> A Claude Code subagent for when Claude is **playing it safe** and you need it to *actually* solve the problem. Pushes toward edge-of-training-data techniques instead of the obvious, well-trodden fix — John Carmack-style fearless engineering across any stack.
+> A Claude Code subagent for when Claude is **trying all the wrong things** — drops the safe answer and reaches for the edge of its training data.
 
 <p align="center">
   <img src="./assets/steamed-hams.gif" alt="Steamed hams" width="480">
