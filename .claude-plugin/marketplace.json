@@ -1,7 +1,7 @@
 {
-  "name": "iconoclast",
+  "name": "eureka",
   "metadata": {
-    "description": "Single-plugin marketplace for the iconoclast subagent."
+    "description": "Single-plugin marketplace for the eureka subagent."
   },
   "owner": {
     "name": "Cody Hergenroeder",
@@ -9,16 +9,16 @@
   },
   "plugins": [
     {
-      "name": "iconoclast",
-      "description": "A Claude Code subagent for when Claude is trying all the wrong things — drops the safe answer and reaches for the edge of its training data.",
-      "version": "0.3.0",
+      "name": "eureka",
+      "description": "A Claude Code subagent for when Claude is trying all the wrong things. Use it when you need Claude to think outside the box.",
+      "version": "0.4.0",
       "source": "./",
       "author": {
         "name": "Cody Hergenroeder",
         "email": "chergenroeder135@gmail.com"
       },
-      "homepage": "https://github.com/codyhxyz/iconoclast",
-      "repository": "https://github.com/codyhxyz/iconoclast",
+      "homepage": "https://github.com/codyhxyz/eureka",
+      "repository": "https://github.com/codyhxyz/eureka",
       "license": "MIT",
       "keywords": [
         "claude-code",

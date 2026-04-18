@@ -1,16 +1,16 @@
-# iconoclast
+# eureka
 
-> A Claude Code subagent for when Claude is **trying all the wrong things**. It drops the safe answer and reaches for the edge of its training data.
+> A Claude Code subagent for when Claude is **trying all the wrong things**. Use it when you need Claude to think outside the box.
 
 <p align="center">
   <img src="./assets/steamed-hams.gif" alt="Steamed hams" width="480">
 </p>
 
-Most coding agents loop on the same three hypotheses until you give up. When standard optimizations aren't working, when the architecture feels wrong but you can't say why, or when the code "works" but the shape is off, `iconoclast` is the override. It has explicit permission to question the assumptions you didn't know you were making and propose rewrites the main agent would never volunteer.
+Most coding agents loop on the same three hypotheses until you give up. When standard optimizations aren't working, when the architecture feels wrong but you can't say why, or when the code "works" but the shape is off, `eureka` is the override. It has explicit permission to question the assumptions you didn't know you were making and propose rewrites the main agent would never volunteer.
 
 ## What it does
 
-When you can tell Claude is flailing, `iconoclast` stops and asks a different question: *what am I assuming is true?* Then it inverts those assumptions and builds from there, from conservative to wild.
+When you can tell Claude is flailing, `eureka` stops and asks a different question: *what am I assuming is true?* Then it inverts those assumptions and builds from there, from conservative to wild.
 
 It will:
 
@@ -37,8 +37,8 @@ Claude Code's main agent will usually delegate to it on its own when these patte
 Add this repo as a plugin marketplace, then install:
 
 ```bash
-/plugin marketplace add codyhxyz/iconoclast
-/plugin install iconoclast@iconoclast
+/plugin marketplace add codyhxyz/eureka
+/plugin install eureka@eureka
 ```
 
 ### Manual install
@@ -47,24 +47,24 @@ Drop the agent file into your user agents directory:
 
 ```bash
 mkdir -p ~/.claude/agents
-curl -fsSL https://raw.githubusercontent.com/codyhxyz/iconoclast/main/agents/iconoclast.md \
-  -o ~/.claude/agents/iconoclast.md
+curl -fsSL https://raw.githubusercontent.com/codyhxyz/eureka/main/agents/eureka.md \
+  -o ~/.claude/agents/eureka.md
 ```
 
 Restart Claude Code and the agent will show up in the `Task` tool's `subagent_type` options.
 
 ## Usage
 
-Once installed, Claude Code will recommend `iconoclast` when your request matches its triggers. You can also call it explicitly:
+Once installed, Claude Code will recommend `eureka` when your request matches its triggers. You can also call it explicitly:
 
-> "Use the iconoclast agent to rethink how our sync queue works."
+> "Use the eureka agent to rethink how our sync queue works."
 
-> "Spawn iconoclast to find a wilder approach to this rendering bottleneck."
+> "Spawn eureka to find a wilder approach to this rendering bottleneck."
 
 Or, if the plugin-scoped slash command is installed:
 
 ```
-/iconoclast our tree view is choking at 10k nodes — standard virtualization isn't cutting it
+/eureka our tree view is choking at 10k nodes — standard virtualization isn't cutting it
 ```
 
 ## Examples
@@ -75,7 +75,7 @@ Or, if the plugin-scoped slash command is installed:
 
 > **Example 3:** "Our log pipeline can't keep up with burst traffic. Choking at ~200k events/sec and dropping data." Three assumptions: logs are parsed at ingest time, each event is individually acked, storage is row-oriented. Approach A: parse at query time, ingest raw bytes, CPU bottleneck gone. Approach B: batch acks with a ring buffer between intake and writer, amortizing syscalls. Approach C (inverts #3): switch to a columnar append-only format like Parquet. Compression gets 5–10x better and scan queries parallelize trivially with SIMD. Recommendation: ship A now, plan C for next quarter.
 
-> **Example 4:** "This test passes locally but fails in CI 30% of the time. We've tried everything." The main agent keeps patching symptoms: longer timeouts, retries, more mocks. `iconoclast` stops and names the hidden assumption instead: that the test's clock and the framework's fake-timer clock are the same clock. Instrumenting wall-clock and monotonic time at every await point exposed two timer systems advancing in different domains — a race invisible to every obvious fix. Root cause found in one pass because it stopped asking "what fix do I apply?" and started asking "what am I assuming is true?"
+> **Example 4:** "This test passes locally but fails in CI 30% of the time. We've tried everything." The main agent keeps patching symptoms: longer timeouts, retries, more mocks. `eureka` stops and names the hidden assumption instead: that the test's clock and the framework's fake-timer clock are the same clock. Instrumenting wall-clock and monotonic time at every await point exposed two timer systems advancing in different domains — a race invisible to every obvious fix. Root cause found in one pass because it stopped asking "what fix do I apply?" and started asking "what am I assuming is true?"
 
 ## Why it works
 
@@ -87,7 +87,7 @@ It's not for every task. Use the standard agents for bug fixes and small feature
 
 ## Contributing
 
-Issues and PRs welcome. If you've used `iconoclast` on a real problem and it worked, open an issue with the story and I'll add it here.
+Issues and PRs welcome. If you've used `eureka` on a real problem and it worked, open an issue with the story and I'll add it here.
 
 ## License
 

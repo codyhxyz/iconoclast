@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0] — 2026-04-18
+
+### Changed
+- Renamed from `iconoclast` to `eureka`. Same agent, new name.
+- Plugin manifest, single-plugin marketplace manifest, agent file, slash command (`/eureka`), install URLs, and example invocations updated.
+
+### Breaking
+- Users on `0.3.0` will need to reinstall under the new name and remove the old agent file from `~/.claude/agents/iconoclast.md`.
+
 ## [0.3.0] — 2026-04-17
 
 ### Changed
