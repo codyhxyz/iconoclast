@@ -1,23 +1,24 @@
 # experimental-engineer
 
-> A Claude Code subagent that explores **unconventional, first-principles solutions** to hard technical problems. Channels John Carmack-style fearless engineering.
+> A Claude Code subagent for when Claude is **playing it safe** and you need it to *actually* solve the problem. Pushes toward edge-of-training-data techniques instead of the obvious, well-trodden fix — John Carmack-style fearless engineering across any stack.
 
-When standard optimizations aren't cutting it, when the architecture feels fundamentally wrong, or when a feature is "working" but the code is a mess — this subagent is given explicit permission to question every assumption and propose radical rewrites, novel data structures, and bleeding-edge approaches.
+When standard optimizations aren't cutting it, when the architecture feels fundamentally wrong, or when a feature is "working" but the code is a mess — this subagent is given explicit permission to question every assumption and propose radical rewrites, novel data structures, and approaches most engineers forget exist.
 
 ## What it does
 
-Most coding agents play it safe. They suggest the obvious, well-trodden fix. `experimental-engineer` is the opposite: a subagent prompted to act like a senior performance engineer who has been told *"go ham — propose the crazy thing."*
+Most coding agents converge on the safe, obvious fix. When you can tell Claude is trying all the wrong things — or when "working" code is clearly the wrong shape — `experimental-engineer` is the override. It surfaces the assumptions baked into your current approach, inverts them, and builds from there — conservative to wild, reaching for techniques at the **edge of its training data**.
 
 It will:
 
-- **Question every assumption** — "Why does this layer exist at all?"
-- **Generate 2–3 radically different approaches**, from conservative to wild
-- **Provide working code**, not pseudocode, with concrete trade-offs
-- **Reach for unusual tools** — WASM, Web Workers, GPU compute, ropes, persistent data structures, spatial indexes, compile-time codegen, event sourcing
-- **Be honest about risk** — it knows when *not* to use clever solutions
+- **Surface load-bearing assumptions** before proposing anything — so you see why the wild option is wild, not just that it is
+- **Generate three approaches** (conservative → medium → wild), each with working code and honest trade-offs
+- **Reach for unusual tools** — SIMD, arena allocators, mmap, lock-free structures, coroutines, zero-copy IPC, WASM, Web Workers, GPU compute, CRDTs, content-addressed storage, columnar layouts, compile-time codegen, spatial indexes, persistent data structures
+- **Give a direct recommendation** — which to pick, and why, by leverage × blast radius
+- **Be honest about risk** — it knows when *not* to use clever solutions, and marks unverified performance claims as estimates
 
 ## When to invoke it
 
+- **Claude is stuck on a bug** — looping on the same wrong hypotheses, patching symptoms, or proposing fixes that obviously won't work
 - A performance bottleneck where standard optimizations have failed
 - An architecture that feels fundamentally wrong but you can't articulate why
 - A subsystem that's accreted complexity and needs a rethink, not a refactor
@@ -58,13 +59,19 @@ Once installed, Claude Code will recommend `experimental-engineer` automatically
 
 ## Examples
 
-> **Example 1:** "Our tree view is lagging with 10k+ nodes. Standard virtualization isn't cutting it." — The agent returns three approaches ordered conservative → wild: (1) move layout to a Web Worker to kill main-thread jank, (2) replace the recursive tree with a flat indexed array + parent pointers for cache-friendly traversal (~10× faster), (3) render the entire tree to a GPU-accelerated `<canvas>` (1M nodes at 60fps). Each comes with trade-offs and a pick-#2 recommendation for highest leverage × lowest blast radius.
+> **Example 1:** "Our tree view is lagging with 10k+ nodes. Standard virtualization isn't cutting it." — The agent surfaces three assumptions: that layout happens on the main thread, that the tree is stored hierarchically, that the renderer is the bottleneck. Inversion of assumption 2 drives approach B: replace the recursive tree with a flat indexed array + parent pointers for cache-friendly traversal (est. ~10× faster on random-access patterns). Approach C inverts assumption 1: render to a GPU-accelerated `<canvas>` off-thread via OffscreenCanvas. Recommendation: ship B — highest leverage, surgical blast radius.
 
-> **Example 2:** "Our sync queue keeps growing more complex. Maybe there's a completely different way?" — The agent challenges the queue's existence: (1) event sourcing with a CRDT — the "queue" becomes an append-only log, conflicts resolve mathematically, you delete ~80% of reconciliation code; (2) operation-based sync over a single WebSocket subscription — server is the source of truth, clients are projections, real-time becomes a side effect. Honest about the rewrite cost and helps pick based on whether offline-first or real-time matters more.
+> **Example 2:** "Our sync queue keeps growing more complex. Maybe there's a completely different way?" — The agent challenges whether a queue needs to exist at all. Assumption inversion: "what if operations were commutative and order didn't matter?" Approach A: event sourcing — the "queue" becomes an append-only log, server replays on reconnect. Approach C: CRDT-based state — conflicts resolve mathematically, you delete ~80% of reconciliation code. Honest about the rewrite cost; recommendation turns on whether offline-first or real-time latency is the actual constraint.
+
+> **Example 3:** "Our log ingestion pipeline can't keep up with burst traffic — it's choking at ~200k events/sec and we're dropping data." — The agent identifies three assumptions: that logs are parsed at ingest time, that each event is individually acknowledged, that storage is row-oriented. Approach A: move parsing to query time, ingest raw bytes — removes the CPU bottleneck immediately. Approach B: batch acknowledgment with a ring buffer between intake and the writer, amortizing syscall overhead. Approach C (inverts assumption 3): switch to a columnar append-only format (Parquet-style) — compression ratios improve 5–10×, scan queries become trivially parallelizable with SIMD. Recommendation: ship A now, plan C for the next quarter.
+
+> **Example 4:** "This test passes locally but fails in CI 30% of the time — we've tried everything." — The main agent keeps patching symptoms (longer timeouts, retries, more mocks). `experimental-engineer` names the hidden assumption instead: that the test's clock and the framework's fake-timer clock are the same clock. Inverting it — instrument wall-clock and monotonic time at every await point — exposes two timer systems advancing in different domains, a race invisible to every "obvious" fix. Root cause found in one pass because it stopped asking *"what fix do I apply?"* and started asking *"what am I assuming is true?"*
 
 ## Design philosophy
 
-This agent exists because most LLM-driven engineering converges on the same safe, mediocre answer. Inversely-prompting an agent to propose the *unsafe, immoderate* answer surfaces options you'd never have considered — even if you don't ship them, they recalibrate your sense of what's possible.
+This agent exists because most LLM-driven engineering converges on the same safe, mediocre answer. The fix isn't more enthusiasm — it's procedure: force the model to name what it's assuming, invert those assumptions, and build from there. Even if you don't ship the wild option, it recalibrates your sense of what's possible.
+
+**Why it works:** LLMs have a strong prior toward the most common solution for any given problem shape. That prior is useful 90% of the time and catastrophic the other 10%. Explicitly licensing the weird answer doesn't make the model smarter — it gives it permission to surface options it already knows but wouldn't otherwise volunteer.
 
 It's not for every task. Use the standard agents for bug fixes and small features. Use this one when you've already tried the obvious thing and it didn't work.
 
